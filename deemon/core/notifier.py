@@ -132,7 +132,7 @@ class Notify:
         self.releases = sorted(self.releases, key=lambda x: x['release_date'], reverse=True)
 
         new_release_count = 0
-        
+
         for release in self.releases:
 
             if all_new_releases != "":
@@ -142,42 +142,43 @@ class Notify:
             release_date_str = datetime.strftime(release_date_ts, "%A, %B %d").replace(" 0", " ")
 
             new_release_list_header = f"""
-			<div class="album date">
-				<span class="album date badge">
-					{release_date_str}
-				</span>
-			</div>
-      """
+            <div class="album date">
+                <span class="album date badge">
+                    {release_date_str}
+                </span>
+            </div>
+            """
 
-      new_release_list_item = ""
+            new_release_list_item = ""
 
-      for album in release["releases"]:
-          new_release_count += 1
-          if album['record_type'].lower() == "ep":
-              record_type = "EP"
-          else:
-              record_type = album['record_type'].title()
+            for album in release["releases"]:
+                new_release_count += 1
+                if album['record_type'].lower() == "ep":
+                    record_type = "EP"
+                else:
+                    record_type = album['record_type'].title()
 
-          if not album['track_num']:
-              album_info = record_type
-          else:
-              album_info = f"{record_type} | {album['track_num']} track(s)"
+                if not album['track_num']:
+                    album_info = record_type
+                else:
+                    album_info = f"{record_type} | {album['track_num']} track(s)"
 
-          new_release_list_item += f"""
-    <div class="album body">
-				<div class="albumart">
-					<img src="{album['cover']}">
-				</div>
-				<div class="albuminfo">
-					<div class="albumtitle">
-						<a href="{album['url']}">{album['album']}</a>
-					</div>
-					<div>
-						<div class="artistname">{album['artist']}</div>
-						<span>{album_info}</span>
-					</div>
-				</div>
-			</div>
+                new_release_list_item += f"""
+            <div class="album body">
+                <div class="albumart">
+                    <img src="{album['cover']}">
+                </div>
+                <div class="albuminfo">
+                    <div class="albumtitle">
+                        <a href="{album['url']}">{album['album']}</a>
+                    </div>
+                    <div>
+                        <div class="artistname">{album['artist']}</div>
+                            <span>{album_info}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 """
 
             all_new_releases += new_release_list_header + new_release_list_item
@@ -186,6 +187,7 @@ class Notify:
             self.subject = f"{str(new_release_count)} new releases found!"
         else:
             self.subject = f"1 new release found!"
+
         html_output = pkgutil.get_data('deemon', 'assets/index.html').decode('ascii')
         
         if config.update_available():
