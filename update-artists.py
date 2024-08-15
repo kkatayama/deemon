@@ -1,0 +1,1 @@
+/home/teddy/bin/update-artists
